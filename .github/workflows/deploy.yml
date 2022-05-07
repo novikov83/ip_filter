@@ -39,6 +39,9 @@ jobs:
     - name: List
       run: ls -la build
       
+    - name: md5
+      run: cat ip_filter.tsv | build/ip_filter | md5sum
+
     - name: Create
       id: create
       uses: actions/create-release@v1
