@@ -43,6 +43,13 @@ public:
 		return numbers[index];
 	};
 
+	bool operator<(const my_ip& ip) const {
+		return numbers[0] > ip[0] || 
+		(numbers[0] == ip[0] && numbers[1] > ip[1]) ||
+		(numbers[1] == ip[1] && numbers[2] > ip[2]) ||
+		(numbers[2] == ip[2] && numbers[3] > ip[3]);
+	}
+
 	friend std::ostream& operator<< (std::ostream& os, const my_ip& ip);
 };
 
@@ -66,15 +73,7 @@ int main(int, char**)
 		for (std::string line; std::getline(std::cin, line);) {
 			ips.push_back(get_ip(line));
 		}
-
-		std::sort(ips.begin(), ips.end(), 
-			[](const my_ip& a, const my_ip& b) -> bool { 
-				return a[0] > b[0] || 
-				(a[0] == b[0] && a[1] > b[1]) ||
-				(a[1] == b[1] && a[2] > b[2]) ||
-				(a[2] == b[2] && a[3] > b[3]);
-			}
-		);
+		std::sort(ips.begin(), ips.end());
 
 		std::for_each(ips.begin(), ips.end(), 
 			[](const my_ip& ip){
