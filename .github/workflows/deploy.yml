@@ -60,8 +60,8 @@ jobs:
         GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
       with:
         upload_url: ${{steps.create.outputs.upload_url}}
-        asset_path: ./build/helloworld-0.0.${{github.run_number}}-Linux.deb
-        asset_name: helloworld-0.0.${{github.run_number}}-Linux.deb
+        asset_path: ./build/ip_filter-0.0.${{github.run_number}}-Linux.deb
+        asset_name: ip_filter-0.0.${{github.run_number}}-Linux.deb
         asset_content_type: application/vnd.debian.binary-package
 
   print:
@@ -70,6 +70,6 @@ jobs:
     needs: [build]
     steps:
       # при помощи name обозначаем таски внутри джоба (они печатаются)
-      - name: Hello Actions
+      - name: Actions
         run: echo "VAR1 ${{env.VAR1}}"
         #run: echo "Git hash: ${{ env.var }} "
