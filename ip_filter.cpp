@@ -3,6 +3,7 @@
 #include <vector>
 #include <cassert>
 #include <algorithm>
+#include <array>
 
 using position = std::string::size_type;
 
@@ -16,24 +17,29 @@ auto get_ip(std::string& line)
 
 class my_ip {
 private:
-	std::vector<int> numbers;
+	// std::vector<int> numbers;
+	std::array<int, 4> numbers;
 
 public:
 	my_ip() = delete;
 
-	my_ip(std::string ip) {
+	my_ip(const std::string& ip) {
 		position	begin{0};
 		position	end{0};
+		int			index{0};
 
 		end = ip.find_first_of('.');
 		while (end != std::string::npos) {
-			numbers.push_back(std::stoi(ip.substr(begin, end - begin)));
+			// numbers.push_back(std::stoi(ip.substr(begin, end - begin)));
+			numbers[index] = std::stoi(ip.substr(begin, end - begin));
 
 			begin = end + 1;
 			end = ip.find_first_of('.', begin);
+			index++;
 		}
 
-		numbers.push_back(std::stoi(ip.substr(begin, end - begin)));
+		// numbers.push_back(std::stoi(ip.substr(begin, end - begin)));
+		numbers[index] = std::stoi(ip.substr(begin, end - begin));
 
 		assert(numbers.size() == 4);
 	};
@@ -44,10 +50,10 @@ public:
 	};
 
 	bool operator<(const my_ip& ip) const {
-		return numbers[0] > ip[0] || 
-		(numbers[0] == ip[0] && numbers[1] > ip[1]) ||
-		(numbers[1] == ip[1] && numbers[2] > ip[2]) ||
-		(numbers[2] == ip[2] && numbers[3] > ip[3]);
+		return numbers[0] < ip[0] ||
+		(numbers[0] == ip[0] && numbers[1] < ip[1]) ||
+		(numbers[1] == ip[1] && numbers[2] < ip[2]) ||
+		(numbers[2] == ip[2] && numbers[3] < ip[3]);
 	}
 
 	friend std::ostream& operator<< (std::ostream& os, const my_ip& ip);
@@ -73,13 +79,14 @@ int main(int, char**)
 		for (std::string line; std::getline(std::cin, line);) {
 			ips.push_back(get_ip(line));
 		}
-		std::sort(ips.begin(), ips.end());
+		std::sort(ips.rbegin(), ips.rend());
 
 		std::for_each(ips.begin(), ips.end(), 
 			[](const my_ip& ip){
 					std::cout << ip << std::endl;
 			} 
 		);
+		// std::cout << "====================== ip[0] == 1 ===================" << std::endl;
 		std::for_each(ips.begin(), ips.end(), 
 			[](const my_ip& ip){
 				if (ip[0] == 1) {
@@ -87,6 +94,7 @@ int main(int, char**)
 				}
 			} 
 		);
+		// std::cout << "====================== ip[0] == 46 && ip[1] == 70 ===================" << std::endl;
 		std::for_each(ips.begin(), ips.end(), 
 			[](const my_ip& ip){
 				if (ip[0] == 46 && ip[1] == 70) {
@@ -94,6 +102,7 @@ int main(int, char**)
 				}
 			} 
 		);
+		// std::cout << "====================== ip[0] == 46 || ip[1] == 46 || ip[2] == 46 || ip[3] == 46 ===================" << std::endl;
 		std::for_each(ips.begin(), ips.end(), 
 			[](const my_ip& ip){
 				if (ip[0] == 46 || ip[1] == 46 || ip[2] == 46 || ip[3] == 46) {
