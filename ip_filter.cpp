@@ -17,10 +17,11 @@ auto get_ip(std::string& line)
 
 class my_ip {
 private:
-	// std::vector<int> numbers;
-	std::array<int, 4> numbers;
+	// std::array<int, 4> numbers;
 
 public:
+	std::array<int, 4> numbers;
+
 	my_ip() = delete;
 
 	my_ip(const std::string& ip) {
@@ -30,7 +31,6 @@ public:
 
 		end = ip.find_first_of('.');
 		while (end != std::string::npos) {
-			// numbers.push_back(std::stoi(ip.substr(begin, end - begin)));
 			numbers[index] = std::stoi(ip.substr(begin, end - begin));
 
 			begin = end + 1;
@@ -38,7 +38,6 @@ public:
 			index++;
 		}
 
-		// numbers.push_back(std::stoi(ip.substr(begin, end - begin)));
 		numbers[index] = std::stoi(ip.substr(begin, end - begin));
 
 		assert(numbers.size() == 4);
@@ -50,10 +49,7 @@ public:
 	};
 
 	bool operator<(const my_ip& ip) const {
-		return numbers[0] < ip[0] ||
-		(numbers[0] == ip[0] && numbers[1] < ip[1]) ||
-		(numbers[1] == ip[1] && numbers[2] < ip[2]) ||
-		(numbers[2] == ip[2] && numbers[3] < ip[3]);
+		return numbers < ip.numbers;
 	}
 
 	friend std::ostream& operator<< (std::ostream& os, const my_ip& ip);
@@ -86,6 +82,7 @@ int main(int, char**)
 					std::cout << ip << std::endl;
 			} 
 		);
+		// return 0;
 		// std::cout << "====================== ip[0] == 1 ===================" << std::endl;
 		std::for_each(ips.begin(), ips.end(), 
 			[](const my_ip& ip){

@@ -1,10 +1,10 @@
 # Имя может быть любое, но желательно без пробелов
-name: ip_filter
+name: IPFilter
 
 on:
   push:
     # должно срабатывать на создание tag в ветке master
-    tags: [ mater ]
+    tags: [ master ]
     # срабатывает на push в ветку master
     branches: [ master ]
 
