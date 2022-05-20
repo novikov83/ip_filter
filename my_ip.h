@@ -2,7 +2,7 @@ using position = std::string::size_type;
 
 class my_ip {
 public:
-	std::array<int, 4> numbers {0, 0, 0, 0};
+	std::array<int, 4> numbers {-1, -1, -1, -1};
 
 	my_ip() = delete;
 
@@ -11,16 +11,21 @@ public:
 		position	end{0};
 		int			index{0};
 
-		end = ip.find_first_of('.');
-		while (end != std::string::npos) {
+		try {
+			end = ip.find_first_of('.');
+			while (end != std::string::npos) {
+				numbers[index] = std::stoi(ip.substr(begin, end - begin));
+
+				begin = end + 1;
+				end = ip.find_first_of('.', begin);
+				index++;
+			}
+
 			numbers[index] = std::stoi(ip.substr(begin, end - begin));
-
-			begin = end + 1;
-			end = ip.find_first_of('.', begin);
-			index++;
 		}
-
-		numbers[index] = std::stoi(ip.substr(begin, end - begin));
+		catch (const std::exception& e) {
+			std::cerr << "ERROR: Wrong line: [" << ip << "]" << std::endl;
+		}
 
 		assert(numbers.size() == 4);
 	};
