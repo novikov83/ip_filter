@@ -15,7 +15,7 @@ add_executable(ip_filter ip_filter.cpp)
 
 add_executable(my_ip_test my_ip_test.cpp)
 target_include_directories(my_ip_test PRIVATE ${GTEST_INCLUDE_DIRS})
-target_link_libraries(my_ip_test PRIVATE ${GTEST_BOTH_LIBRARIES})
+target_link_libraries(my_ip_test PRIVATE ${GTEST_BOTH_LIBRARIES} pthread)
 
 set_target_properties(ip_filter PROPERTIES
 					CXX_STANDARD 17
